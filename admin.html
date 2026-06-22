@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Website by [Your Name / Your Brand] -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin · Ali's Driving School</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0a1628;
+      --navy-l: #162a4a;
+      --yellow: #f5c518;
+      --white:  #ffffff;
+      --border: rgba(255,255,255,0.12);
+    }
+
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    /* ── Gate ─────────────────────────── */
+    #gate {
+      background: var(--navy-l);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      text-align: center;
+    }
+
+    #gate h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.4rem;
+      color: var(--yellow);
+    }
+
+    #gate p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.6);
+    }
+
+    #gate input {
+      width: 100%;
+      background: var(--navy);
+      color: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      text-align: center;
+      letter-spacing: 0.15em;
+    }
+    #gate input:focus {
+      outline: none;
+      border-color: var(--yellow);
+      box-shadow: 0 0 0 3px rgba(245,197,24,0.15);
+    }
+
+    #gate button {
+      background: var(--yellow);
+      color: var(--navy);
+      border: none;
+      border-radius: 8px;
+      padding: 0.85rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #gate button:hover { background: #d9ac10; }
+
+    #gate-error {
+      color: #ff8080;
+      font-size: 0.85rem;
+      display: none;
+    }
+
+    /* ── Dashboard ─────────────────────── */
+    #dashboard {
+      width: 100%;
+      max-width: 960px;
+      display: none;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .dash-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .dash-header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.4rem;
+    }
+    .dash-header h1 span { color: var(--yellow); }
+
+    .btn-logout {
+      background: none;
+      border: 1.5px solid var(--border);
+      color: rgba(255,255,255,0.6);
+      border-radius: 8px;
+      padding: 0.45rem 1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-logout:hover { border-color: var(--white); color: var(--white); }
+
+    .dash-note {
+      background: rgba(245,197,24,0.1);
+      border: 1px solid rgba(245,197,24,0.3);
+      border-radius: 8px;
+      padding: 0.85rem 1.1rem;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.6;
+    }
+    .dash-note strong { color: var(--yellow); }
+    .dash-note a { color: var(--yellow); text-decoration: underline; }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    thead th {
+      background: var(--navy-l);
+      color: var(--yellow);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.85rem 1rem;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-top: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+    tbody td {
+      padding: 0.85rem 1rem;
+      color: rgba(255,255,255,0.8);
+      vertical-align: top;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .empty-state p { font-size: 0.9rem; margin-top: 0.5rem; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Password Gate ──────────────────── -->
+  <div id="gate">
+    <h1>Admin Login</h1>
+    <p>Ali's Driving School · Booking Submissions</p>
+    <input
+      type="password"
+      id="gate-password"
+      placeholder="Password"
+      autocomplete="current-password"
+    />
+    <span id="gate-error">Incorrect password. Try again.</span>
+    <button id="gate-btn">Log In</button>
+  </div>
+
+  <!-- ── Dashboard ─────────────────────── -->
+  <div id="dashboard">
+    <div class="dash-header">
+      <h1>Booking Submissions — <span>Ali's Driving School</span></h1>
+      <button class="btn-logout" id="logout-btn">Log Out</button>
+    </div>
+
+    <div class="dash-note">
+      <strong>Note:</strong> This page shows a local summary only.
+      For the full list of submissions (with email notifications and CSV export), visit your
+      <a href="https://formspree.io/forms" target="_blank" rel="noopener">Formspree dashboard</a>.
+      Submissions are stored and managed there — not in this file.
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Age</th>
+            <th>Experience</th>
+            <th>Lesson Type</th>
+            <th>Days</th>
+            <th>Time</th>
+            <th>Postcode</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="submissions-body">
+          <tr>
+            <td colspan="10">
+              <div class="empty-state">
+                <strong>No local submissions stored.</strong>
+                <p>All bookings are sent directly to Formspree — check your dashboard there.</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    /*
+      ADMIN PASSWORD — change this before deploying!
+      TODO: Replace 'changeme2026' with a strong password.
+      This is a lightweight JS gate — not a substitute for server-side auth,
+      but sufficient for a simple admin view on a driving school site.
+    */
+    const ADMIN_PASSWORD = 'changeme2026';
+    const SESSION_KEY    = 'ads_admin_auth';
+
+    const gate       = document.getElementById('gate');
+    const dashboard  = document.getElementById('dashboard');
+    const pwInput    = document.getElementById('gate-password');
+    const gateBtn    = document.getElementById('gate-btn');
+    const gateError  = document.getElementById('gate-error');
+    const logoutBtn  = document.getElementById('logout-btn');
+
+    function showDashboard() {
+      gate.style.display       = 'none';
+      dashboard.style.display  = 'flex';
+    }
+
+    function showGate() {
+      sessionStorage.removeItem(SESSION_KEY);
+      gate.style.display       = '';
+      dashboard.style.display  = 'none';
+    }
+
+    function tryLogin() {
+      if (pwInput.value === ADMIN_PASSWORD) {
+        sessionStorage.setItem(SESSION_KEY, '1');
+        gateError.style.display = 'none';
+        showDashboard();
+      } else {
+        gateError.style.display = 'block';
+        pwInput.value = '';
+        pwInput.focus();
+      }
+    }
+
+    gateBtn.addEventListener('click', tryLogin);
+    pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+    logoutBtn.addEventListener('click', showGate);
+
+    // Restore session on page load
+    if (sessionStorage.getItem(SESSION_KEY) === '1') showDashboard();
+  </script>
+
+</body>
+</html>
